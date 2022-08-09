@@ -45,18 +45,14 @@ def predict():
     text = regex.sub(r'[^a-z\s]',' ',string = text)
     # Substituting multiple spaces with single space
     text = regex.sub(r'\s+', ' ', string = text)  
-
-    print([text])
     # Convert the text into sequences
     sequence = tokenizer.texts_to_sequences([text])
-    print("sequence", sequence)
     # Pad the sequences
-    token_list = pad_sequences(sequence, maxlen=12468, truncating='post')
-    print(token_list)
+    token_list = pad_sequences(sequence, maxlen=11920, truncating='post')
     # Get the probabilities of predicting a word
     prediction = model.predict(token_list)
     predicted = 'Real' if prediction[0][0] > .5 else 'Fake'
-    return render_template('index.html', prediction_text = 'The Above news is  {}'.format(str(predicted)))
+    return render_template('index.html', qry = request.form.get('News'), prediction_text = 'The Above news is  {}'.format(str(predicted)))
 
 
 
